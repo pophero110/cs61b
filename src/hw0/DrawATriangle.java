@@ -1,3 +1,5 @@
+package hw0;
+
 public class DrawATriangle {
     public static void main(String[] args) {
         int SIZE = 5;

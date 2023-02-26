@@ -1,3 +1,5 @@
+package hw0;
+
 public class EnhancedForBreakDemo {
     public static void main(String[] args) {
         String[] a = {"cat", "dog", "laser horse", "ketchup", "horse", "horbse"};

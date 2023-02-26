@@ -1,3 +1,5 @@
+package hw0;
+
 public class MaxInArray {
     public static int max(int[] m) {
         int max = m[0];

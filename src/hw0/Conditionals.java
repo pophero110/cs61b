@@ -1,3 +1,5 @@
+package hw0;
+
 public class Conditionals {
     public static void main(String[] args) {
         int x = 5;
