@@ -69,47 +69,105 @@ public class IntList {
         return L;
     }
 
+    // if 2 numbers in row are the same, add them together to make one large node
+    // 1 → 1 → 2 → 3 becomes 2 → 2 → 3 which becomes 4 → 3
+    public void addAdjacent() {
+        IntList p = this;
+        while (p != null && p.rest != null) {
+            if (p.first == p.rest.first) {
+                p.first += p.rest.first;
+                p.rest = p.rest.rest;
+            } else {
+                p = p.rest;
+            }
+
+        }
+    }
+
+    public void add(int newValue) {
+        int finalSize = size() * 2;
+        IntList p = this;
+        while (p != null) {
+            IntList t = p.rest;
+            p.rest = new IntList(p.first * p.first, null);
+            p.rest.rest = t;
+            int size = size();
+            if (size == finalSize) {
+                p.rest.rest = new IntList(newValue, null);
+                break;
+            }
+            p = p.rest.rest;
+        }
+    }
+
     public static void main(String[] args) {
-        IntList L = new IntList(5, null);
-        L.first = 5;
-        L.rest = null;
+        // addAdjancent Test
+        // IntList L = new IntList(1, new IntList(1, new IntList(2, new IntList(3, null))));
+        // L.addAdjacent();
+        // System.out.println(L.get(0)); // 4
+        // System.out.println(L.get(1)); // 3
 
-        L.rest = new IntList(10, null);
-        L.rest.first = 10;
+        // addLast test
+        IntList L = new IntList(1, new IntList(2, null));
+        L.add(5);
+        System.out.println(L.get(0)); // 1
+        System.out.println(L.get(1)); // 1
+        System.out.println(L.get(2)); // 2
+        System.out.println(L.get(3)); // 4
+        System.out.println(L.get(4)); // 5
+        L.add(7);
+        System.out.println(L.get(0)); // 1
+        System.out.println(L.get(1)); // 1
+        System.out.println(L.get(2)); // 1
+        System.out.println(L.get(3)); // 1
+        System.out.println(L.get(4)); // 2
+        System.out.println(L.get(5)); // 4
+        System.out.println(L.get(6)); // 4
+        System.out.println(L.get(7)); // 16
+        System.out.println(L.get(8)); // 5
+        System.out.println(L.get(9)); // 25
+        System.out.println(L.get(10)); // 7
 
-        L.rest.rest = new IntList(15, null);
-        L.rest.rest.first = 15;
+        // IntList L = new IntList(5, null);
+        // L.first = 5;
+        // L.rest = null;
 
-        // refactor by using constructor
-        IntList M = new IntList(5, null);
-        M = new IntList(10, M);
-        M = new IntList(15, M);
+        // L.rest = new IntList(10, null);
+        // L.rest.first = 10;
 
-        System.out.println(L.size());
-        System.out.println(M.iterativeSize());
-        System.out.println(L.get(2));
-        System.out.println(M.get(2));
+        // L.rest.rest = new IntList(15, null);
+        // L.rest.rest.first = 15;
 
-        // incrList test
-        IntList N = new IntList(5, null);
-        N = new IntList(10, N);
-        N = new IntList(15, N);
-        IntList increList = IntList.incrList(N, 3);
-        System.out.println("N[0] " + N.get(0));
-        System.out.println("N[1] " + N.get(1));
-        System.out.println("N[2] " + N.get(2));
-        System.out.println("increList[0] " + increList.get(0));
-        System.out.println("increList[1] " + increList.get(1));
-        System.out.println("increList[2] " + increList.get(2));
+        // // refactor by using constructor
+        // IntList M = new IntList(5, null);
+        // M = new IntList(10, M);
+        // M = new IntList(15, M);
 
-        // dincrList test
-        IntList O = new IntList(5, new IntList(10, new IntList(15, null)));
-        IntList dincreList = IntList.dincrList(O, 3);
-        System.out.println("O[0] " + O.get(0));
-        System.out.println("O[1] " + O.get(1));
-        System.out.println("O[2] " + O.get(2));
-        System.out.println("dincreList[0] " + dincreList.get(0));
-        System.out.println("dincreList[1] " + dincreList.get(1));
-        System.out.println("dincreList[2] " + dincreList.get(2));
+        // System.out.println(L.size());
+        // System.out.println(M.iterativeSize());
+        // System.out.println(L.get(2));
+        // System.out.println(M.get(2));
+
+        // // incrList test
+        // IntList N = new IntList(5, null);
+        // N = new IntList(10, N);
+        // N = new IntList(15, N);
+        // IntList increList = IntList.incrList(N, 3);
+        // System.out.println("N[0] " + N.get(0));
+        // System.out.println("N[1] " + N.get(1));
+        // System.out.println("N[2] " + N.get(2));
+        // System.out.println("increList[0] " + increList.get(0));
+        // System.out.println("increList[1] " + increList.get(1));
+        // System.out.println("increList[2] " + increList.get(2));
+
+        // // dincrList test
+        // IntList O = new IntList(5, new IntList(10, new IntList(15, null)));
+        // IntList dincreList = IntList.dincrList(O, 3);
+        // System.out.println("O[0] " + O.get(0));
+        // System.out.println("O[1] " + O.get(1));
+        // System.out.println("O[2] " + O.get(2));
+        // System.out.println("dincreList[0] " + dincreList.get(0));
+        // System.out.println("dincreList[1] " + dincreList.get(1));
+        // System.out.println("dincreList[2] " + dincreList.get(2));
     }
 }
