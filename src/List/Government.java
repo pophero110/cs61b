@@ -10,17 +10,17 @@ package List;
  * Guess before TRYING to compile, otherwise the compiler will spoil the problem.
  */
 public class Government {
-    private int treasury = 5;
+    private static int treasury = 5;
 
-    private void spend() {
+    private static void spend() {
         treasury -= 1;
     }
 
-    private void tax() {
+    private static void tax() {
         treasury += 1;
     }
 
-    public void report() {
+    public static void report() {
         System.out.println(treasury);
     }
 
