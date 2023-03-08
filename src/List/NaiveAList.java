@@ -7,40 +7,43 @@ package List;
  */
 
 
-public class NaiveAList {
+public class NaiveAList<Item> {
 
-    private int[] items;
+    private Item[] items;
     private int size;
 
     /** Creates an empty list. */
     public NaiveAList() {
-        items = new int[2];
+        items = (Item[]) new Object[2];
         size = 0;
     }
 
     /** Resizes the underlying array to the target capacity */
     private void resize(int capacity) {
-        int[] newItems = new int[size + 1];
+        Item[] newItems = (Item[]) new Object[size + 1];
         System.arraycopy(items, 0, newItems, 0, size);
         items = newItems;
     }
 
     /** Inserts X into the back of the list. */
-    public void addLast(int x) {
+    public void addLast(Item x) {
         if (size == items.length) {
-            resize(size + 1);
+            // instead of increasing size by 1
+            // which give great performance when add billion items
+            // also how python implement tht list
+            resize(size * 2);
         }
         items[size] = x;
         size = size + 1;
     }
 
     /** Returns the item from the back of the list. */
-    public int getLast() {
+    public Item getLast() {
         return items[size - 1];
     }
 
     /** Gets the ith item in the list (0 is the front). */
-    public int get(int i) {
+    public Item get(int i) {
         return items[i];
     }
 
@@ -52,15 +55,15 @@ public class NaiveAList {
     /**
      * Deletes item from back of the list and returns deleted item.
      */
-    public int removeLast() {
-        int x = getLast();
-        // items[index - 1] = 0; unnecessary
+    public Item removeLast() {
+        Item x = getLast();
+        items[size - 1] = null;
         size = size - 1;
         return x;
     }
 
     public static void main(String[] args) {
-        NaiveAList list = new NaiveAList();
+        NaiveAList<Integer> list = new NaiveAList<>();
         list.addLast(0);
         list.addLast(1);
         list.addLast(2);
