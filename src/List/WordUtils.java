@@ -19,5 +19,6 @@ public class WordUtils {
         list.addLast("1234");
         list.addLast("12345");
         System.out.println(longest(list));
+        list.print();
     }
 }

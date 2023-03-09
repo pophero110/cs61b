@@ -26,6 +26,7 @@ public class NaiveAList<Item> implements List61B<Item> {
     }
 
     /** Inserts X into the back of the list. */
+    @Override
     public void addLast(Item x) {
         if (size == items.length) {
             // instead of increasing size by 1
@@ -38,16 +39,19 @@ public class NaiveAList<Item> implements List61B<Item> {
     }
 
     /** Returns the item from the back of the list. */
+    @Override
     public Item getLast() {
         return items[size - 1];
     }
 
     /** Gets the ith item in the list (0 is the front). */
+    @Override
     public Item get(int i) {
         return items[i];
     }
 
     /** Returns the number of items in the list. */
+    @Override
     public int size() {
         return size;
     }
@@ -55,6 +59,7 @@ public class NaiveAList<Item> implements List61B<Item> {
     /**
      * Deletes item from back of the list and returns deleted item.
      */
+    @Override
     public Item removeLast() {
         Item x = getLast();
         items[size - 1] = null;

@@ -17,4 +17,11 @@ public interface List61B<Item> {
      * Deletes item from back of the list and returns deleted item.
      */
     public Item removeLast();
+
+    default public void print() {
+        for (int i = 0; i < size(); i += 1) {
+            System.out.print(get(i) + " ");
+        }
+        System.out.println();
+    }
 }
