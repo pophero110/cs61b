@@ -7,7 +7,7 @@ package List;
  */
 
 
-public class NaiveAList<Item> {
+public class NaiveAList<Item> implements List61B<Item> {
 
     private Item[] items;
     private int size;
