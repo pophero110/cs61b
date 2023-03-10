@@ -30,8 +30,6 @@ public class DLList<Item> {
     // allow fast get last node
     private Node<Item> last;
 
-    // private Node<Item> backSentinel;
-
     // allow empty list
     public DLList() {
         sentinel = new Node<Item>(63, null, null);

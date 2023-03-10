@@ -1,11 +1,6 @@
 package List;
 
-
-/**
- * A SLList is a list of integers, which hides the terrible truth of the nakedness within.
- */
-public class SentBackDLList<Item> {
-
+public class CircularSentDLList<Item> {
     private static class Node<Item> {
         public Item item;
         public Node<Item> next;
@@ -25,50 +20,43 @@ public class SentBackDLList<Item> {
     // refactor size method
     private int size;
 
-    // allow fast get last node
-    // private Node<Item> last;
-
-    // avoiding special case. the last item is at sentinelBack.prev
-    private Node<Item> sentinelBack;
-
-    // private Node<Item> backSentinel;
-
     // allow empty list
-    public SentBackDLList() {
+    public CircularSentDLList() {
         sentinel = new Node<Item>(null, null, null);
-        sentinelBack = new Node<Item>(null, sentinel, null);
-        sentinel.next = sentinelBack;
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
         size = 0;
     }
 
-    public SentBackDLList(Item x) {
+    public CircularSentDLList(Item x) {
         Node<Item> node = new Node<Item>(x, null, null);
-        sentinel = new Node<Item>(null, null, node);
-        sentinelBack = new Node<Item>(null, node, null);
-        node.next = sentinelBack;
+        sentinel = new Node<Item>(null, node, node);
+        node.next = sentinel;
         node.prev = sentinel;
         size = 1;
     }
 
     public void addFirst(Item x) {
-        Node<Item> newNode = new Node<>(x, sentinel, sentinel.next);
-        sentinel.next.prev = newNode;
-        sentinel.next = newNode;
+        Node<Item> oldFirst = sentinel.next;
+        Node<Item> newFirst = new Node<>(x, sentinel, oldFirst);
+        oldFirst.prev = newFirst;
+        sentinel.next = newFirst;
         size += 1;
     }
 
     public void addLast(Item x) {
-        Node<Item> newNode = new Node<>(x, sentinelBack.prev, sentinelBack);
-        sentinelBack.prev.next = newNode;
-        sentinelBack.prev = newNode;
+        Node<Item> oldLast = sentinel.prev;
+        Node<Item> newLast = new Node<>(x, oldLast, sentinel);
+        oldLast.next = newLast;
+        sentinel.prev = newLast;
         size += 1;
     }
 
     public Node<Item> removeLast() {
-        Node<Item> oldLast = sentinelBack.prev;
+        Node<Item> oldLast = sentinel.prev;
         Node<Item> newLast = oldLast.prev;
-        newLast.next = sentinelBack;
-        sentinelBack.prev = newLast;
+        newLast.next = sentinel;
+        sentinel.prev = newLast;
         oldLast.next = null;
         oldLast.prev = null;
         size -= 1;
@@ -80,7 +68,7 @@ public class SentBackDLList<Item> {
     }
 
     public Item getLast() {
-        return sentinelBack.prev.item;
+        return sentinel.prev.item;
     }
 
     public int size() {
@@ -89,7 +77,7 @@ public class SentBackDLList<Item> {
 
     public void print() {
         Node<Item> head = sentinel.next;
-        while (head.next != null) {
+        while (head != sentinel) {
             System.out.print(head.item + " ");
             head = head.next;
         }
@@ -97,7 +85,7 @@ public class SentBackDLList<Item> {
     }
 
     public static void main(String[] args) {
-        SentBackDLList<Integer> list = new SentBackDLList<>();
+        CircularSentDLList<Integer> list = new CircularSentDLList<>();
         list.addFirst(1);
         list.addFirst(2);
         list.addFirst(3);
@@ -106,7 +94,7 @@ public class SentBackDLList<Item> {
         System.out.println(list.getFirst()); // 3
         System.out.println(list.getLast()); // 4
         list.print(); // 3 2 1 4
-        SentBackDLList<Integer> list2 = new SentBackDLList<>();
+        CircularSentDLList<Integer> list2 = new CircularSentDLList<>();
         list2.addLast(1);
         list2.addLast(2);
         list2.addLast(3);
