@@ -1,28 +1,32 @@
 package List;
 
+import java.util.NoSuchElementException;
+
 /**
  * A SLList is a list of integers, which hides the terrible truth of the nakedness within.
  */
-public class SLList {
+public class SLList<Item> implements List61B<Item> {
 
-    private static class IntNode {
-        public int item;
-        public IntNode next;
+    private static class IntNode<Item> {
+        public Item item;
+        public IntNode<Item> next;
 
-        public IntNode(int i, IntNode n) {
+        public IntNode(Item i, IntNode<Item> n) {
             item = i;
             next = n;
         }
+
+        public IntNode(int i, Object n) {}
     }
 
     // The first item (if it exists) is at sentinel.next.
-    private IntNode sentinel;
+    private IntNode<Item> sentinel;
     // refactor size method
     private int size;
 
 
-    public SLList(int[] x) {
-        sentinel = new IntNode(63, null);
+    public SLList(Item[] x) {
+        sentinel = new IntNode<Item>(63, null);
         size = 0;
         for (int i = 0; i < x.length; i++) {
             addLast(x[i]);
@@ -30,31 +34,32 @@ public class SLList {
     }
 
     public SLList() {
-        sentinel = new IntNode(63, null);
+        sentinel = new IntNode<Item>(63, null);
         size = 0;
     }
 
-    public SLList(int x) {
-        sentinel = new IntNode(63, null);
-        sentinel.next = new IntNode(x, null);
+    public SLList(Item x) {
+        sentinel = new IntNode<Item>(63, null);
+        sentinel.next = new IntNode<Item>(x, null);
         size = 1;
     }
 
     // Adds x to the front of the list
-    public void addFirst(int x) {
+    public void addFirst(Item x) {
         size += 1;
-        sentinel.next = new IntNode(x, sentinel.next);
+        sentinel.next = new IntNode<Item>(x, sentinel.next);
     }
 
     // Adds x to the end of the list
-    public void addLast(int x) {
+    @Override
+    public void addLast(Item x) {
         size += 1;
-        IntNode p = sentinel;
+        IntNode<Item> p = sentinel;
         // Advance p to the end of the list
         while (p.next != null) {
             p = p.next;
         }
-        p.next = new IntNode(x, null);
+        p.next = new IntNode<Item>(x, null);
     }
 
     // private static int size(IntNode p) {
@@ -68,7 +73,7 @@ public class SLList {
     // public int size() {
     // return size(first);
     // }
-
+    @Override
     public int size() {
         return size;
     }
@@ -76,7 +81,7 @@ public class SLList {
     // get size of the list - iterative
     public int iterativeSize() {
         int size = 0;
-        IntNode p = sentinel;
+        IntNode<Item> p = sentinel;
         while (p != null) {
             size += 1;
             p = p.next;
@@ -84,7 +89,7 @@ public class SLList {
         return size;
     }
 
-    public int getFirst() {
+    public Item getFirst() {
         return sentinel.next.item;
     }
 
@@ -92,6 +97,56 @@ public class SLList {
     public void deleteFirst() {
         size -= 1;
         sentinel.next = sentinel.next.next;
+    }
+
+
+    @Override
+    public Item getLast() {
+        if (sentinel.next == null) {
+            throw new NoSuchElementException("List is empty");
+        }
+        IntNode<Item> lastNode = sentinel.next;
+        while (lastNode.next != null) {
+            lastNode = lastNode.next;
+        }
+        return lastNode.item;
+    }
+
+    @Override
+    public Item get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+        IntNode<Item> node = sentinel;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        return node.item;
+    }
+
+    @Override
+    public Item removeLast() {
+        if (sentinel.next == null) {
+            return null;
+        }
+        size -= 1;
+        IntNode<Item> p = sentinel;
+        while (p.next.next != null) {
+            p = p.next;
+        }
+        Item last = p.next.item;
+        p.next = null;
+        return last;
+    }
+
+    @Override
+    public void print() {
+        IntNode<Item> p = sentinel.next;
+        while (p != null) {
+            System.out.print(p.item + " ");
+            p = p.next;
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -123,7 +178,7 @@ public class SLList {
         // System.out.println(L.getFirst());
 
         // test if sentinel is null
-        SLList L = new SLList(10);
+        SLList<Integer> L = new SLList<>(10);
         L.addLast(5);
         System.out.println(L.size());
 
